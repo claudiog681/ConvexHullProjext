@@ -20,16 +20,15 @@ def left_most(point_list): #finds the starting point at the left most point
     return min_val
 
 def slope_function(point1, nextPoint, testPoints):
-    #inputs are of Points object
-    #use expresion ax+by=c to find relative positions of testPoints
-    cExpression= (nextPoint.y - point1.y) * (testPoints.x - nextPoint.x) - (nextPoint.x - point1.x) * (testPoints.y - nextPoint.y)
+    # inputs are of Points object
+    # use expresion ax+by=c to find relative positions of testPoints
+    cExpression = (nextPoint.y - point1.y) * (testPoints.x - nextPoint.x) - (nextPoint.x - point1.x) * (
+                testPoints.y - nextPoint.y)
 
-    if cExpression == 0: #Points lie on the same line
-        return 0
-    elif cExpression > 0: #Points in a clockwise position
-        return 1
-    else: #Points in a counter clockwise position
-        return -1
+    if cExpression >= 0:  # Points lie on the same line or clockwise position
+        return False
+    else:  # Points in a counter clockwise position
+        return True
 
 def convexHull(point_list, size):
     #Minimum size 3 uses helper methods to create result list in counter clockwise order starting from leftmost point
@@ -45,7 +44,7 @@ def convexHull(point_list, size):
         result.append(in_list[currentP]) #append current point to hull
         nextQ = (currentP + 1) % size
         for i in range(size): # test current and next point with all points
-            if slope_function(in_list[currentP], in_list[i], in_list[nextQ]) == -1: # if next point is in the hull
+            if slope_function(in_list[currentP], in_list[i], in_list[nextQ]): # if next point is in the hull
                 nextQ = i
 
         currentP = nextQ
